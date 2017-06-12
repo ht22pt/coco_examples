@@ -26,10 +26,10 @@ Ctrler.prototype.zoomAtCenter = function(delta){
     var stage_ui = window.controller_ui.s.stage_ui;
     var imWid = stage_ui.size['width'];
     var imHei = stage_ui.size['height'];
-    var p = new Object();
-    p['x'] = imWid/2
-    p['y'] = imHei/2
-    stage_ui.zoom_delta(delta,p);
+    var p = {};
+    p['x'] = imWid/2;
+    p['y'] = imHei/2;
+    stage_ui.zoom_delta(delta, p);
 }
 //render hint
 Ctrler.prototype.renderHint = function(){
@@ -70,17 +70,21 @@ Ctrler.prototype.renderHint = function(){
         }
     }
 
-}
+};
+
 Ctrler.prototype.getOrigin = function(){
     return window.controller_ui.s.stage_ui.origin
-}
+};
+
 Ctrler.prototype.getZoomFactor = function(){
     return window.controller_ui.s.stage_ui.get_zoom_factor()
-}
+};
+
 Ctrler.prototype.getPolys = function(){
     // polygon points:
     return window.controller_ui.s.closed_polys
-}
+};
+
 Ctrler.prototype.submitNoObj = function(){
       if (!mt_submit_ready) {
         return;
@@ -101,7 +105,7 @@ Ctrler.prototype.submitNoObj = function(){
          'hitId': $('#hitId').val(),
          'isObj': 0,
         };
-        $("input[name='duration']").val(duration)
+        $("input[name='duration']").val(duration);
         $("input[name='ans']").val(ans);
         $("input[name='isObj']").val(0);
       return $.ajax({
@@ -110,7 +114,7 @@ Ctrler.prototype.submitNoObj = function(){
         data: {'resp': JSON.stringify(resp)} ,
         timeout: 60000,
       }).done( function(data) {
-          if (data == 'reload'){
+          if (data === 'reload'){
               window.location.reload();
           }else if (data = 'submit'){
               $('#mturk_form').submit();
@@ -122,7 +126,8 @@ Ctrler.prototype.submitNoObj = function(){
           alert('Timeout, please click "Next" again to submit your HIT');
           window.hide_modal_loading();
       }) ;
-}
+};
+
 Ctrler.prototype.submit_form = function(data_callback) {
       var data, feedback;
       if (!mt_submit_ready) {
@@ -133,7 +138,7 @@ Ctrler.prototype.submit_form = function(data_callback) {
       if (window.ask_for_feedback) {
         feedback = typeof window.get_modal_feedback === "function" ? window.get_modal_feedback() : void 0;
       }
-      if ((feedback != null) && !$.isEmptyObject(feedback)) {
+      if ((feedback !== null) && !$.isEmptyObject(feedback)) {
         data.feedback = JSON.stringify(feedback);
       }
       console.log("submit data:");
@@ -154,7 +159,7 @@ Ctrler.prototype.submit_form = function(data_callback) {
          'hitId': $('#hitId').val(),
          'isObj': 1,
         };
-        $("input[name='duration']").val(duration)
+        $("input[name='duration']").val(duration);
         $("input[name='ans']").val(ans);
         $("input[name='isObj']").val(1);
       return $.ajax({
@@ -163,7 +168,7 @@ Ctrler.prototype.submit_form = function(data_callback) {
         data: {'resp': JSON.stringify(resp)} ,
         timeout: 60000,
       }).done( function(data) {
-          if (data == 'reload'){
+          if (data === 'reload'){
               window.location.reload();
           }else if (data = 'submit'){
               $('#mturk_form').submit();
@@ -175,7 +180,8 @@ Ctrler.prototype.submit_form = function(data_callback) {
           alert('Timeout, please click "Next" again to submit your HIT');
           window.hide_modal_loading();
       }) ;
-    }
+    };
+
 Ctrler.prototype.addListener = function(){
     $('#btn-zoom-in').bind('click', function(e){
         ctrler.zoomAtCenter(600);
@@ -194,13 +200,13 @@ Ctrler.prototype.addListener = function(){
         //return stop_event(ev);
     });
     $(document).keydown(function(ev){
-        if (ev.keyCode == 77 || ev.keyCode == 109){
+        if (ev.keyCode === 77 || ev.keyCode === 109){
             $('#btn-move').trigger('click');
-        }else if(ev.keyCode == 73 || ev.keyCode == 105){
+        }else if(ev.keyCode === 73 || ev.keyCode === 105){
             $('#btn-zoom-in').trigger('click');
-        }else if(ev.keyCode == 79 || ev.keyCode == 111){
+        }else if(ev.keyCode === 79 || ev.keyCode === 111){
             $('#btn-zoom-out').trigger('click');
-        }else if(ev.keyCode == 37 || ev.keyCode == 38){
+        }else if(ev.keyCode === 37 || ev.keyCode === 38){
         }
     } );
     $('#btn-submit-noobj').bind('click', ctrler.submitNoObj);
@@ -210,13 +216,14 @@ Ctrler.prototype.addListener = function(){
                 ctrler.renderHint();}, 100);
         }
     });
-}
+};
+
 // polygonal comparison
 function isPointInPoly(poly, pt){
     nvert = poly.length
     var c = false;
     for(i = 0, j = nvert - 1; i < nvert; j = i++){
-        if ( (poly[i]['y'] > pt['y'] )!=(poly[j]['y']>pt['y']) &&
+        if ( (poly[i]['y'] > pt['y'] )!== (poly[j]['y']>pt['y']) &&
              (pt['x'] < (poly[j]['x']-poly[i]['x']) * (pt['y']-poly[i]['y']) / (poly[j]['y']-poly[i]['y']) + poly[i]['x'] )){
             c = !c;
         }
@@ -232,7 +239,7 @@ function accOfOverlappedPolygons(poly1, poly2){
     var poly2Pixel = 0;
     for (var i = bbox['x_min']; i < bbox['x_max']; i++){
         for (var j = bbox['y_min']; j < bbox['y_max']; j++){
-            var pt = new Object();
+            var pt = {};
             pt = {'x':i, 'y':j};
             var inPoly1 = isPointInPoly(poly1, pt);
             var inPoly2 = isPointInPoly(poly2, pt);
@@ -249,16 +256,18 @@ function accOfOverlappedPolygons(poly1, poly2){
     }
     return intersection/poly1Pixel;
 }
+
 function getbboxOfPolys(poly1, poly2){
     bbox1 =getbbox(poly1);
     bbox2 =getbbox(poly2);
-    var bbox = new Object();
+    var bbox = {};
     bbox['x_min'] = Math.min(bbox1['x_min'], bbox2['x_min']);
     bbox['y_min'] = Math.min(bbox1['y_min'], bbox2['y_min']);
     bbox['x_max'] = Math.max(bbox1['x_max'], bbox2['x_max']);
     bbox['y_max'] = Math.max(bbox1['y_max'], bbox2['y_max']);
-    return bbox
+    return bbox;
 }
+
 function getbbox(poly){
     var x_min=1000000, x_max=0, y_min=100000, y_max = 0;
     for (var i=0; i<poly.length; i++){
