@@ -21,7 +21,8 @@ Ctrler.prototype.centerIcon = function(){
     // compute new origin
     stage_ui.translate_delta(Anno[0][0]* imWid- imWid/2/zoom - origin['x'], Anno[0][1]*imHei- imHei/2/zoom - origin['y']);
     setTimeout(function(){ctrler.renderHint();}, 300);
-}
+};
+
 Ctrler.prototype.zoomAtCenter = function(delta){
     var stage_ui = window.controller_ui.s.stage_ui;
     var imWid = stage_ui.size['width'];
@@ -30,7 +31,8 @@ Ctrler.prototype.zoomAtCenter = function(delta){
     p['x'] = imWid/2;
     p['y'] = imHei/2;
     stage_ui.zoom_delta(delta, p);
-}
+};
+
 //render hint
 Ctrler.prototype.renderHint = function(){
     var stage_ui = window.controller_ui.s.stage_ui;
@@ -72,23 +74,89 @@ Ctrler.prototype.renderHint = function(){
 
 };
 
+  Ctrler.prototype.at_get_submit_data = function() {
+
+    var $this = window.controller_ui.s;
+    var scale = $this.stage_ui.size.scale;
+    var p, points_scaled, poly, results, results_list, time_active_ms, time_ms, _i, _j, _len, _len1, _ref, _ref1;
+    results_list = [];
+    _ref = $this.closed_polys;
+    for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+      poly = _ref[_i];
+      points_scaled = [];
+      _ref1 = poly.poly.points;
+      for (_j = 0, _len1 = _ref1.length; _j < _len1; _j++) {
+        p = _ref1[_j];
+        points_scaled.push(Math.max(0, p.x / scale));
+        points_scaled.push(Math.max(0, p.y / scale));
+      }
+
+      var bboxRaw = getbbox(_ref1);
+      var bbox = [bboxRaw.x_min/scale, bboxRaw.y_min/scale, (bboxRaw.x_max - bboxRaw.x_min)/scale, (bboxRaw.y_max - bboxRaw.y_min)/scale];
+
+      var result = {
+        segmentation : [points_scaled],
+        area : poly.poly.area() / scale,
+        bbox : bbox
+      };
+
+      results_list.push(result);
+    }
+    results = {};
+    time_ms = {};
+    time_active_ms = {};
+    results[$this.photo_id] = results_list;
+    time_ms[$this.photo_id] = (function() {
+      var _k, _len2, _ref2, _results;
+      _ref2 = $this.closed_polys;
+      _results = [];
+      for (_k = 0, _len2 = _ref2.length; _k < _len2; _k++) {
+        p = _ref2[_k];
+        _results.push(p.time_ms);
+      }
+      return _results;
+    }).call($this);
+    time_active_ms[$this.photo_id] = (function() {
+      var _k, _len2, _ref2, _results;
+      _ref2 = $this.closed_polys;
+      _results = [];
+      for (_k = 0, _len2 = _ref2.length; _k < _len2; _k++) {
+        p = _ref2[_k];
+        _results.push(p.time_active_ms);
+      }
+      return _results;
+    }).call($this);
+    return {
+      version: '1.0',
+      results: results,
+      time_ms: JSON.stringify(time_ms),
+      time_active_ms: JSON.stringify(time_active_ms),
+      action_log: $this.log.get_submit_data()
+    };
+  };
+
+Ctrler.prototype.getImageSize = function(){
+    return {width: 0, height: 0};
+};
+
 Ctrler.prototype.getOrigin = function(){
-    return window.controller_ui.s.stage_ui.origin
+    return window.controller_ui.s.stage_ui.origin;
 };
 
 Ctrler.prototype.getZoomFactor = function(){
-    return window.controller_ui.s.stage_ui.get_zoom_factor()
+    return window.controller_ui.s.stage_ui.get_zoom_factor();
 };
 
 Ctrler.prototype.getPolys = function(){
     // polygon points:
-    return window.controller_ui.s.closed_polys
+    return window.controller_ui.s.closed_polys;
 };
 
 Ctrler.prototype.submitNoObj = function(){
       if (!mt_submit_ready) {
         return;
       }
+
       window.show_modal_loading("Submitting...", 0);
       var data = $.extend(true, {
                     screen_width: screen.width,
@@ -129,6 +197,10 @@ Ctrler.prototype.submitNoObj = function(){
 };
 
 Ctrler.prototype.submit_form = function(data_callback) {
+
+      // For test atvn
+  data_callback = this.at_get_submit_data
+
       var data, feedback;
       if (!mt_submit_ready) {
         return;
@@ -148,6 +220,9 @@ Ctrler.prototype.submit_form = function(data_callback) {
                     screen_height: screen.height,
                     time_load_ms: window.time_load_ms
                   }, data);
+
+
+
       var bbox = getbbox(JSON.parse(data.results)[1][0]);
       var ans = JSON.stringify(data);
       var duration = ($.now()-init_time)/1000;
@@ -211,7 +286,7 @@ Ctrler.prototype.addListener = function(){
     } );
     $('#btn-submit-noobj').bind('click', ctrler.submitNoObj);
     $(document).keypress( function(ev){
-        if (ev.keyCode == 37 || ev.keyCode == 38){
+        if (ev.keyCode === 37 || ev.keyCode === 38){
             setTimeout(function(){
                 ctrler.renderHint();}, 100);
         }
@@ -220,7 +295,7 @@ Ctrler.prototype.addListener = function(){
 
 // polygonal comparison
 function isPointInPoly(poly, pt){
-    nvert = poly.length
+    nvert = poly.length;
     var c = false;
     for(i = 0, j = nvert - 1; i < nvert; j = i++){
         if ( (poly[i]['y'] > pt['y'] )!== (poly[j]['y']>pt['y']) &&
@@ -255,6 +330,20 @@ function accOfOverlappedPolygons(poly1, poly2){
         }
     }
     return intersection/poly1Pixel;
+}
+function processRawData(polys) {
+
+  var processPoly = [];
+
+  for (var i=0; i < polys.length; i++){
+
+  }
+
+  return processPoly
+}
+
+function getRealPixelVal(percenVal, imgVal) {
+    return percenVal * imgVal;
 }
 
 function getbboxOfPolys(poly1, poly2){
