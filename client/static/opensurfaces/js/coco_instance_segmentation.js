@@ -143,6 +143,7 @@ Ctrler.prototype.submit_form = function(data_callback) {
                     screen_height: screen.height,
                     time_load_ms: window.time_load_ms
                   }, data);
+      var bbox = getbbox(JSON.parse(data.results)[1][0]);
       var ans = JSON.stringify(data);
       var duration = ($.now()-init_time)/1000;
       var resp =
