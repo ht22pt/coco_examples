@@ -56,7 +56,9 @@ https://github.com/seanbell/opensurfaces
   <div id="mt-top-nohover">
 
     <div class="ui-controls-top">
-      <button class="btn btn-primary" data-dismiss="modal" aria-hidden="true" id="btn-submit" disabled="disabled">Next
+      <button class="btn btn-primary" data-dismiss="modal" aria-hidden="true" id="previous">Previous
+      </button>
+      <button class="btn btn-primary" data-dismiss="modal" aria-hidden="true" id="btn-submit" disabled="disabled">Submit
       </button>
       <button class="btn btn-primary" data-dismiss="modal" aria-hidden="true" id="btn-submit-noobj">No cat in this
         image
@@ -505,6 +507,13 @@ https://github.com/seanbell/opensurfaces
 
   // each polygon must have at least this many vertices:
   window.min_vertices = 4;
+
+      $(document).ready(function () {
+
+        $('#previous').bind('click', function () {
+          window.location.replace("coco_process_step_2.html");
+        });
+      });
 </script>
 
 <!-- merged libraries -->

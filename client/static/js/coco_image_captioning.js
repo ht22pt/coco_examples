@@ -34,7 +34,7 @@ $(window).load(function () {
     buttons: {
       'ok': function () {
         $(this).dialog("close");
-      },
+      }
     }
   });
   addDialog();
@@ -49,7 +49,7 @@ $(window).load(function () {
   $('#clear').bind('click', function () {
     $('#description').val("");
   });
-})
+});
 
 // ================================================================
 // function to control next and previous question
@@ -88,9 +88,9 @@ function render_question(q) {
   $('#header').text('Please describe the image:');
 }
 function render_im(im) {
-  im.height = im.height * 480 / im.width
+  im.height = im.height * 480 / im.width;
   im.width = 480;
-  var c = $('#canvas')[0]
+  var c = $('#canvas')[0];
   if (im.width > im.height) {
     c.width = 480;
     c.height = im.height * 480 / im.width;
