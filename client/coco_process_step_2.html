@@ -3,8 +3,10 @@
 <head>
 
   <link rel="stylesheet" href="vendor/jquery-ui/themes/smoothness/jquery-ui.min.css">
+  <link rel="stylesheet" href="vendor/bootstrap/dist/css/bootstrap.min.css">
   <link rel="stylesheet" href="vendor/bootstrap/dist/fonts/glyphicons-halflings-regular.woff">
   <link rel="stylesheet" type="text/css" href="static/css/coco_category_labeling.css">
+  <link rel="stylesheet" href="static/css/coco_instance_spotting.css"/>
 
   <script src="vendor/jquery/dist/jquery.min.js"></script>
   <script src="vendor/jquery-ui/jquery-ui.min.js"></script>
@@ -440,17 +442,9 @@
     <br>
     <br>
     <div>
-      <div id='userinput_div'>
-        <div class='state-button' style='text-align:;display:inline-block'>
-          <input type='button' id='previous' value='Previous'>
-        </div>
-        <div class='state-button' style='text-align:right;display:inline-block'>
-          <input type='button' id='submit' value='Submit'>
-        </div>
-        <div class='state-button' style='text-align:;display:inline-block'>
-          <input type='button' id='next' value='Next Step'>
-        </div>
-      </div>
+      <button class="btn btn-default" data-dismiss="modal" aria-hidden="true" id="previous">Previous</button>
+      <button class="btn btn-primary" data-dismiss="modal" aria-hidden="true" id="submit">Submit</button>
+      <button class="btn btn-default" data-dismiss="modal" aria-hidden="true" id="next">Next</button>
     </div>
   </div>
 

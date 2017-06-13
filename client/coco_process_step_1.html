@@ -7,8 +7,8 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
 
   <link rel="stylesheet" href="vendor/jquery-ui/themes/smoothness/jquery-ui.min.css">
-  <link rel="stylesheet" href="vendor/bootstrap/dist/css/bootstrap.min.css">
-  <link rel="stylesheet" href="vendor/bootstrap/dist/css/bootstrap-theme.min.css">
+  <link rel="stylesheet" href="vendor/bootstrap/dist/css/bootstrap.min.css"/>
+  <link rel="stylesheet" href="static/css/coco_instance_spotting.css" />
   <link rel="stylesheet" href="vendor/bootstrap/dist/fonts/glyphicons-halflings-regular.woff">
 
   <script src="vendor/jquery/dist/jquery.min.js"></script>
@@ -41,15 +41,10 @@
           <div id='userinput'>
             <textarea id='description' maxlength=250 placeholder="Enter description here"></textarea>
           </div>
-          <div class='state-button' style='text-align:;display:inline-block'>
-            <input type='button' id='clear' value='Clear'>
-          </div>
-          <div class='state-button' style='text-align:right;display:inline-block'>
-            <input type='button' id='submit' value='Submit'>
-          </div>
-          <div class='state-button' style='text-align:;display:inline-block'>
-            <input type='button' id='next' value='Next Step'>
-          </div>
+          <button class="btn btn-danger" data-dismiss="modal" aria-hidden="true" id="clear">Clear</button>
+          <button class="btn btn-primary" data-dismiss="modal" aria-hidden="true" id="submit">Submit</button>
+          <button class="btn btn-default" data-dismiss="modal" aria-hidden="true" id="next">Next</button>
+
         </div>
       </div>
     </div>
