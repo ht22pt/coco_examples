@@ -11,9 +11,11 @@ iframe { border: 1px solid #969696; }
 #mt-top-padding {
 	height: 60px;
 }
-#modal-instructions {
+#modal-instructions .modal-content {
 	width: 1000px;
-    margin-left: -500px;
+  overflow-x: auto;
+  height: 500px;
+
 }
 #mt-feedback {
 	padding: 0px;

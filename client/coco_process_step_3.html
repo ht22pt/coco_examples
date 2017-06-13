@@ -13,7 +13,6 @@ https://github.com/seanbell/opensurfaces
   <link rel="stylesheet" href="vendor/bootstrap/dist/css/bootstrap.min.css"/>
   <link rel="stylesheet" href="vendor/bootstrap/dist/fonts/glyphicons-halflings-regular.woff">
   <link rel="stylesheet" href="static/opensurfaces/css/mturk.css" />
-  <link rel="stylesheet" href="static/css/coco_instance_spotting.css" />
   <style>
     canvas {
       border: 1px solid #969696;
@@ -64,7 +63,7 @@ https://github.com/seanbell/opensurfaces
         image
       </button>
       <a href="#modal-examples" role="button" id='btn-example' class="btn btn-warning" data-toggle="modal">Examples</a>
-      <a href="#modal-instructions" role="button" class="btn btn-warning" id='btn-instructions' data-toggle="modal">Instructions</a>
+      <button type="button"class="btn btn-warning" id='btn-instructions' data-toggle="modal" data-target="#modal-instructions">Instructions</button>
     </div>
 
     <div id="ui-controls" class="ui-controls-top">
@@ -109,15 +108,17 @@ https://github.com/seanbell/opensurfaces
 
 <!-- BEGIN MODALS -->
 <!-- Examples dialog -->
-<div class="modal hide fade" id="modal-examples" tabindex="-1" role="dialog"
-     aria-labelledby="modal-instructions-label" aria-hidden="true">
-  <div class="modal-header">
-    <button type="button" class="close" data-dismiss="modal"
-            aria-hidden="true">&times;
+<div class="modal fade" id="modal-examples" role="dialog" aria-labelledby="modal-instructions-label" aria-hidden="true">
+
+  <div class="modal-dialog">
+    <div class="modal-content">
+
+        <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;
     </button>
     <h3 id="modal-examples-label">Good Examples of cat segmentations</h3>
   </div>
-  <div class="modal-body">
+  <div class="modal-dialog">
     <div class="container-fluid">
       <p>Not sure what the object "cat" is? Click on <a target='blank'
                                                         href='https://www.google.com/search?hl=en&authuser=0&site=imghp&tbm=isch&q=cat'>here</a>
@@ -148,13 +149,20 @@ https://github.com/seanbell/opensurfaces
   <div class="modal-footer">
     <button class="btn btn-primary" data-dismiss="modal" aria-hidden="true">Close</button>
   </div>
+
+    </div>
+  </div>
+
+
 </div>
 <!-- Instructions dialog -->
-<div class="modal hide fade" id="modal-instructions" tabindex="-1" role="dialog"
-     aria-labelledby="modal-instructions-label" aria-hidden="true">
-  <div class="modal-header">
-    <button type="button" class="close" data-dismiss="modal"
-            aria-hidden="true">&times;
+<div class="modal fade" id="modal-instructions" tabindex="-1" role="dialog" aria-labelledby="modal-instructions-label" aria-hidden="true">
+
+    <div class="modal-dialog">
+    <div class="modal-content">
+
+        <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;
     </button>
     <h3 id="modal-instructions-label">Instructions</h3>
   </div>
@@ -325,6 +333,10 @@ https://github.com/seanbell/opensurfaces
   <div class="modal-footer">
     <button class="btn btn-primary" data-dismiss="modal" aria-hidden="true">Close</button>
   </div>
+    </div>
+    </div>
+
+
 </div>
 
 <!-- Loading bar -->
