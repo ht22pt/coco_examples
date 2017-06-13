@@ -12,9 +12,11 @@ General Structure for JSON Coco
 }
 ```
 
-General information for json dataset, one dataset inlucde many link to 
+General information for json dataset, one dataset inlucde many link to
 
-```
+Format of **info**
+
+```json
 info {
 	"year"         : int,
 	"version"      : str,
@@ -46,11 +48,11 @@ license {
 }
 ```
 
-With "*annotation*" has 3 types: Caption, Instances, Keypoints
+With "**annotation**" has 3 types: Caption, Instances, Keypoints
 
 Example structure data
 
-```
+```json
 {
   "info": {
     "description": "This is stable 1.0 version of the 2014 MS COCO dataset.",
@@ -95,10 +97,11 @@ Example structure data
 }
 ```
 
-
 ### Captions
 
-```
+It contains description of image
+
+```json
 annotation {
   "id": int,
   "image_id": int,
@@ -106,9 +109,24 @@ annotation {
 }
 ```
 
+Example:
+
+```json
+"annotations": [
+{"image_id": 318556, "id": 48, "caption": "A very clean and well decorated empty bathroom"},
+{"image_id": 116100, "id": 67, "caption": "A panoramic view of a kitchen and all of its appliances."}, 
+{"image_id": 318556, "id": 126, "caption": "A blue and white bathroom with butterfly themed wall tiles."}, 
+{"image_id": 116100, "id": 148, "caption": "A panoramic photo of a kitchen and dining room"}, 
+{"image_id": 379340, "id": 173, "caption": "A graffiti-ed stop sign across the street from a red car "}, 
+]
+```
+
+
+Per annotations has one unique ID and maybe same image_id because many users can be add caption for same image. It will need review to remove bad caption.
+
 ### Instances
 
-```
+```json
 annotation {
   "id": int,
   "image_id": int,
@@ -125,7 +143,8 @@ annotation {
 }
 ```
 
-```
+
+```json
 categories [
   {
     "id": int,
@@ -138,7 +157,7 @@ categories [
 
 Example with polygon
 
-```
+```json
 {
 	"segmentation": [
 		[
@@ -173,7 +192,7 @@ Example with polygon
 
 Example structure of categories
 
-```
+```json
 "categories": 
 [
 	{ "supercategory": "person",  "id": 1, "name": "person"}, 
@@ -189,7 +208,7 @@ Client side uses tool [OpenSurfaces][https://github.com/seanbell/opensurfaces-se
 
 Raw data when select from source client
 
-```
+```json
 {
 	"1": [
 		[0.10623229461756374, 0.660056657223796, 
@@ -231,12 +250,86 @@ Raw data when select from source client
 For create segmentation of polygon must get raw data multiplication with image size (example 600x400 first row will be : 63.6, 264)
 
 And bbox value is min x, min y and width/height of box of this shape.
+Area built-in this library only need call to get it
 
+```javascript
+var listPolys = window.controller_ui.s.closed_polys;
+var area = listPolys[0].poly.area();
+```
+
+
+Implement override method for convert OpenSurfaces data to Coco example data
+
+```javascript
+Ctrler.prototype.at_get_submit_data = function () {
+
+  var $this = window.controller_ui.s;
+  var scale = $this.stage_ui.size.scale;
+  var p, points_scaled, poly, results, results_list, time_active_ms, time_ms, _i, _j, _len, _len1, _ref, _ref1;
+  results_list = [];
+  _ref = $this.closed_polys;
+  for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+    poly = _ref[_i];
+    points_scaled = [];
+    _ref1 = poly.poly.points;
+    for (_j = 0, _len1 = _ref1.length; _j < _len1; _j++) {
+      p = _ref1[_j];
+      points_scaled.push(Math.max(0, p.x / scale));
+      points_scaled.push(Math.max(0, p.y / scale));
+    }
+
+    var bboxRaw = getbbox(_ref1);
+    var bbox = [bboxRaw.x_min / scale, bboxRaw.y_min / scale, (bboxRaw.x_max - bboxRaw.x_min) / scale, (bboxRaw.y_max - bboxRaw.y_min) / scale];
+
+    var result = {
+      segmentation: [points_scaled],
+      area: poly.poly.area() / scale,
+      bbox: bbox,
+      iscrowd: 0,
+      image_id: $this.photo_id,
+      category_id: 18
+    };
+
+    results_list.push(result);
+  }
+  results = {};
+  time_ms = {};
+  time_active_ms = {};
+  results[$this.photo_id] = results_list;
+  time_ms[$this.photo_id] = (function () {
+    var _k, _len2, _ref2, _results;
+    _ref2 = $this.closed_polys;
+    _results = [];
+    for (_k = 0, _len2 = _ref2.length; _k < _len2; _k++) {
+      p = _ref2[_k];
+      _results.push(p.time_ms);
+    }
+    return _results;
+  }).call($this);
+  time_active_ms[$this.photo_id] = (function () {
+    var _k, _len2, _ref2, _results;
+    _ref2 = $this.closed_polys;
+    _results = [];
+    for (_k = 0, _len2 = _ref2.length; _k < _len2; _k++) {
+      p = _ref2[_k];
+      _results.push(p.time_active_ms);
+    }
+    return _results;
+  }).call($this);
+  return {
+    version: '1.0',
+    results: results,
+    time_ms: JSON.stringify(time_ms),
+    time_active_ms: JSON.stringify(time_active_ms),
+    action_log: $this.log.get_submit_data()
+  };
+};
+```
 
 ### Keypoints ( no see any example for use this data)
 
 
-```
+```json
 annotation{
   "keypoints": [
     x1,
@@ -252,7 +345,7 @@ annotation{
 
 ```
 
-```
+```json
 categories[
   {
     "keypoints": [
@@ -270,7 +363,7 @@ categories[
 
 Example:
 
-```
+```json
 	{
 		"segmentation": [
 			[329.88, 211.23, 337.63, 211.93, 341.51, 210.17, 341.86, 206.65, 340.1, 202.77, 335.52, 199.6, 335.52, 197.13, 335.52, 190.44, 339.04, 186.21, 342.57, 170.35, 345.74, 159.43, 342.57, 154.14, 340.1, 148.86, 336.93, 143.92, 337.28, 138.28, 344.68, 138.28, 340.45, 122.43, 339.75, 116.79, 334.46, 107.63, 320.37, 104.1, 325.65, 97.06, 326, 91.06, 321.77, 82.25, 316.49, 89.66, 305.21, 87.19, 304.51, 92.47, 304.16, 97.06, 305.21, 100.58, 304.16, 103.4, 292.53, 105.51, 284.42, 123.84, 278.43, 140.05, 273.14, 146.74, 273.85, 152.73, 279.49, 156.26, 281.6, 154.14, 284.07, 144.63, 289, 133, 293.23, 133.7, 294.99, 125.95, 295.35, 157.67, 312.26, 157.31, 318.96, 150.27, 335.17, 150.27, 333.76, 157.31, 324.95, 158.02, 315.43, 164.01, 309.44, 170, 306.27, 176.34, 305.56, 185.51, 310.85, 184.8, 313.67, 178.81, 312.97, 170.7, 316.14, 165.42, 320.01, 162.25, 323.18, 167.89, 327.06, 172.11, 333.4, 171.06, 330.23, 178.46, 330.58, 190.09, 329.18, 197.13, 329.18, 208.76],
@@ -289,7 +382,7 @@ Example:
 
 Categoies
 
-```
+```json
 "categories": [{
 	"supercategory": "person",
 	"id": 1,
@@ -321,7 +414,6 @@ Categoies
 
 
 ---
-
 
 
 
