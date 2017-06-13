@@ -9,10 +9,11 @@ https://github.com/seanbell/opensurfaces
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
 
-  <link href="static/opensurfaces/css/jquery-ui-1.9.1.custom.min.css" rel="stylesheet" type="text/css"/>
-  <link href="static/opensurfaces/css/bootstrap-2.2.1.min.css" rel="stylesheet" type="text/css"/>
-  <link href="static/opensurfaces/css/mturk.css" rel="stylesheet" type="text/css"/>
-
+  <link rel="stylesheet" href="vendor/jquery-ui/themes/smoothness/jquery-ui.min.css">
+  <link rel="stylesheet" href="vendor/bootstrap/dist/css/bootstrap.min.css"/>
+  <link rel="stylesheet" href="vendor/bootstrap/dist/fonts/glyphicons-halflings-regular.woff">
+  <link rel="stylesheet" href="static/opensurfaces/css/mturk.css" />
+  <link rel="stylesheet" href="static/css/coco_instance_spotting.css" />
   <style>
     canvas {
       border: 1px solid #969696;
@@ -23,8 +24,7 @@ https://github.com/seanbell/opensurfaces
     }
   </style>
   <!-- BEGIN: OPENSURFACE ADD-ON, ADDED BY Tsung-Yi Lin -->
-  <link href="static/css/coco_instance_spotting.css" rel="stylesheet" type="text/css"/>
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+  <script src="vendor/jquery/dist/jquery.min.js"></script>
   <script type="text/javascript" src="static/opensurfaces/js/coco_instance_segmentation.js"></script>
   <script>
     var init_time = $.now();
@@ -63,9 +63,6 @@ https://github.com/seanbell/opensurfaces
       </button>
       <a href="#modal-examples" role="button" id='btn-example' class="btn btn-warning" data-toggle="modal">Examples</a>
       <a href="#modal-instructions" role="button" class="btn btn-warning" id='btn-instructions' data-toggle="modal">Instructions</a>
-      <div id='userinput'>
-        <textarea id='description' maxlength=250 placeholder="Enter description here"></textarea>
-      </div>
     </div>
 
     <div id="ui-controls" class="ui-controls-top">
