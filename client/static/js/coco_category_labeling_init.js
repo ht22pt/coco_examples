@@ -39,9 +39,9 @@ $(document).ready(function () {
     window.location.replace("coco_process_step_3.html");
   });
   $('#submit').bind('click', function () {
-                 $( "#dialog-confirm" ).dialog( "open" );
-             $( ".ui-dialog" ).css('top', window.scrollY+200);
-             $( ".ui-dialog" ).css('left', window.scrollX+200);
+    $("#dialog-confirm").dialog("open");
+    $(".ui-dialog").css('top', window.scrollY + 200);
+    $(".ui-dialog").css('left', window.scrollX + 200);
   });
   $('#previous').bind('click', function () {
     window.location.replace("coco_process_step_1.html");

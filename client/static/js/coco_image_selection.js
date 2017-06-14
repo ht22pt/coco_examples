@@ -5,9 +5,9 @@
 // =============================================================================================
 function initialize_grid(im_urls){
     // dynamically create image grid according to im_urls
-    var data = new Array();
+    var data = [];
     for(i=0; i< im_urls.length; i++){
-        data[i] = new Object();
+        data[i] = {};
         data[i]['div'] = $('<div class="div_grid_0"><img class="im_grid" src="'+im_urls[i]+'"></img></div>');
         data[i]['div'].data('src', im_urls[i]);
         data[i]['div'].data('idx', i);
@@ -23,7 +23,7 @@ function initialize_grid(im_urls){
                 $(this).attr('class', 'div_grid_0');
                 data[idx]['isselected'] = 0;
             }else{
-                $(this).attr('class', 'div_grid_1')
+                $(this).attr('class', 'div_grid_1');
                 data[idx]['isselected'] = 1;
             }
         });
@@ -88,7 +88,7 @@ this.imagePreview = function(){
             var trc_y = yOffset + $img.height();
         }
 
-        My = screen.height+$(window).scrollTop() -150
+        My = screen.height+$(window).scrollTop() -150;
         trc_x = Math.min(trc_x + event.pageX, Mx);
         trc_y = Math.min(trc_y + event.pageY, My);
 
@@ -104,7 +104,7 @@ this.imagePreview = function(){
         var $img = $("#preview");
 
         // top-right corner coords' offset
-        if (modulus==0 || modulus==1){
+        if (modulus===0 || modulus===1){
             var trc_x = xOffset + $img.width();
             var trc_y = yOffset + $img.height();
         }else{
@@ -112,7 +112,7 @@ this.imagePreview = function(){
             var trc_y = yOffset + $img.height();
         }
 
-        My = screen.height+$(window).scrollTop()-150
+        My = screen.height+$(window).scrollTop()-150;
         trc_x = Math.min(trc_x + event.pageX, Mx);
         trc_y = Math.min(trc_y + event.pageY, My);
 
@@ -128,11 +128,11 @@ this.imagePreview = function(){
             var idx = $(this).data('idx');
             Mx = $(document).width();
             My = $(document).height();
-            My = screen.height+$(window).scrollTop() -150
+            My = screen.height+$(window).scrollTop() -150;
 
             $("body").append("<p id='preview'></p>");
             $("#preview").hide();
-            questions[idx]['img'].appendTo($('#preview'))
+            questions[idx]['img'].appendTo($('#preview'));
             var modulus = idx % 4;
             callback_hover(e, modulus);
             $("#preview").fadeIn("fast");
