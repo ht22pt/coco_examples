@@ -28,6 +28,7 @@
     "jquery.kinetic": "^2.1.0",
     "jquery": "^1.12.4",
     "bootstrap": "^3.3.7",
-    "jquery-ui": "^1.12.1"
+    "jquery-ui": "^1.12.1",
+    "bootstrap3-dialog": "^1.35.4"
   }
 }
