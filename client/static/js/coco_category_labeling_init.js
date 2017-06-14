@@ -33,7 +33,6 @@ var im_err = [];
 
 $(document).ready(function () {
 
-
   $('#next').bind('click', function () {
     // Goto Step 2
     window.location.replace("coco_process_step_3.html");
@@ -289,38 +288,6 @@ $(document).ready(function () {
       });
     }
   }
-
-  // ====================================================
-  // ================= confirm dialog ===================
-  // ====================================================
-  $("#dialog-confirm").dialog({
-    autoOpen: false,
-    resizable: false,
-    height: 140,
-    modal: true,
-    buttons: {
-      "Yes": function () {
-        $(this).dialog("close");
-        // show annotations here
-        // i: image index; j: category index
-        var results = [];
-        for (i = 0; i < icons_all.length; i++) {
-          for (j = 0; j < icons_all[i].length; j++) {
-            if (icons_all[i][j]['isselected'] === 1) {
-              results.push(icons_all[i][j]);
-            }
-          }
-        }
-        console.log(JSON.stringify(results));
-        // uncomment submit form if you'd like to submit to mturk
-        // submit_form();
-      },
-      Cancel: function () {
-        $(this).dialog("close");
-      }
-    }
-  });
-  $(".ui-dialog").css('position', 'absolute');
 
   // initialize UI
   initialize_anncats();

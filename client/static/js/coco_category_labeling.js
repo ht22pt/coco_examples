@@ -159,10 +159,6 @@ function nextTask() {
     if (task_cursor < N_task - 1) {
       task_cursor += 1;
       renderTask();
-    } else {
-      $("#dialog-confirm").dialog("open");
-      $(".ui-dialog").css('top', window.scrollY + 200);
-      $(".ui-dialog").css('left', window.scrollX + 200);
     }
   }
 
@@ -187,7 +183,7 @@ function prevTask() {
       }
     }
     if (task_cursor === 0) {
-      alert('This is already the first task.');
+      renderTask();
     } else {
       task_cursor--;
       renderTask();
