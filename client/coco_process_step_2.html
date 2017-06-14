@@ -20,22 +20,19 @@
   <div style='border:solid; margin-bottom:10px; padding-left:5px'>
 
   <script>
-
   for (i = 0; i < im_urls.length; i++) {
     document.write("<div id='task" + i + "' style='display:block table-cell'><div id='title" + i + "' style='color:black;font-size:16pt;font-weight:800;'><a id='anchor" + i + "' href='#title" + i + "'>Image " + (i + 1) + " </a>:</div><div><div id='imdiv" + i + "'></div><div class='div-selected-icon-panel' id='cats_icons" + i + "'>Image contains:<br></div></div><div class='div-task' id='div-task" + i + "'><div id='question_panel" + i + "'></div></div><br><br></div>");
   }
   </script>
     <br>
-    <br>
     <div>
-      <button class="btn btn-primary" aria-hidden="true" id="submit">Submit</button>
-      <button class="btn btn-default" aria-hidden="true" id="previous">Previous</button>
-      <button class="btn btn-default" aria-hidden="true" id="next">Next</button>
+      <button class="btn btn-primary" id="submit">Submit</button>
+      <button class="btn btn-default" id="previous">Previous</button>
+      <button class="btn btn-default" id="next">Next</button>
       <button type="button" class="btn btn-warning" id='btn-instructions' data-toggle="modal"
               data-target="#modal-instructions">Instructions
       </button>
     </div>
-    <br>
     <br>
   </div>
 
@@ -80,7 +77,6 @@
       </div>
     </div>
   </div>
-
 </div>
 
 </body>

@@ -24,7 +24,7 @@ https://github.com/seanbell/opensurfaces
   </style>
   <!-- BEGIN: OPENSURFACE ADD-ON, ADDED BY Tsung-Yi Lin -->
   <script src="vendor/jquery/dist/jquery.min.js"></script>
-  <script type="text/javascript" src="static/opensurfaces/js/coco_instance_segmentation.js"></script>
+  <script src="static/opensurfaces/js/coco_instance_segmentation.js"></script>
   <script>
     var init_time = $.now();
     var Anno = [];
@@ -426,46 +426,6 @@ https://github.com/seanbell/opensurfaces
     <!--			<button class="btn btn-primary" data-dismiss="modal" aria-hidden="true" id="modal-feedback-submit">Submit</button> -->
   </div>
 </div>
-
-<!-- Script for feedback survey -->
-<script type="text/javascript">
-  window.ask_for_feedback = false;
-  window.feedback_bonus = '$0.02';
-
-  window.show_modal_feedback = function (label_message, prompt_message, on_submit) {
-    $('#modal-feedback-label').empty();
-    $('#modal-feedback-bonus').empty();
-    $('#modal-feedback-prompt').empty();
-    if (label_message !== undefined) {
-      $('#modal-feedback-label').html(label_message);
-    }
-    if (prompt_message !== undefined) {
-      $('#modal-feedback-prompt').html(prompt_message);
-    }
-    $('#modal-feedback').modal('show');
-    if (on_submit !== undefined) {
-      $('#modal-feedback-submit').off('click').on('click', on_submit);
-    }
-  };
-  window.get_modal_feedback = function () {
-    var feedback = {};
-    var gender = $('input[name=feedback-gender]:checked', '#modal-feedback-form').val();
-    if (gender) {
-      feedback.gender = gender;
-    }
-    var names = [
-
-      'thoughts', 'understand', 'other'
-    ];
-    for (var i = 0; i < names.length; i++) {
-      var value = $.trim($('#feedback-' + names[i]).val());
-      if (value) {
-        feedback[names[i]] = value;
-      }
-    }
-    return feedback;
-  };
-</script>
 
 <!-- Message about valid polygons -->
 <div class="modal hide fade" id="poly-modal-intersect" tabindex="-1" role="dialog"

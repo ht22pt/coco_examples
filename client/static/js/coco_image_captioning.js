@@ -7,6 +7,7 @@ var questions = [];
 var state = 0;
 var init_time = $.now();
 // TODO: define list of image urls to load in this page
+// Need get image from list from server
 var im_urls = ["http://orig13.deviantart.net/ac5c/f/2011/345/8/0/business_cat_original_by_plasticpyre-d4irr6a.jpg"];
 
 // ============================================================================
@@ -17,6 +18,7 @@ for (i = 0; i < im_urls.length; i++) {
   var q = {};
   im.src = im_urls[i];
   q.im = im;
+  q.id = 1;
   q.ans = '';
   // TODO: add fields for identifying images here
   questions.push(q);
@@ -55,7 +57,7 @@ function submit() {
   }
 
   var data = {
-    image_id: 1,
+    image_id: q.id, // Image Id from server
     userId: 1,
     caption: q.ans
   };
