@@ -16,12 +16,6 @@
   <script src="static/js/coco_category_labeling_init.js"></script>
 </head>
 <body>
-<div id="dialog-confirm" title="Save the Result?"></div>
-<form id='mturk_form' action="MTURK_FORM_TO_SUBMIT" method="POST">
-  <input type="hidden" id="hitId" name="hitId" value='MTURK_HIT_ID'>
-  <input type="hidden" id="assignmentId" name="assignmentId" value='MTURK_ASSIGNMENT_ID'>
-  <input type="hidden" id="workerId" name="workerId" value='MTURK_WORKER_ID'>
-</form>
 <div id='container' class='container'>
   <div style='border:solid; margin-bottom:10px; padding-left:5px'>
 
@@ -34,8 +28,8 @@
     <br>
     <br>
     <div>
-      <button class="btn btn-default" aria-hidden="true" id="previous">Previous</button>
       <button class="btn btn-primary" aria-hidden="true" id="submit">Submit</button>
+      <button class="btn btn-default" aria-hidden="true" id="previous">Previous</button>
       <button class="btn btn-default" aria-hidden="true" id="next">Next</button>
       <button type="button" class="btn btn-warning" id='btn-instructions' data-toggle="modal"
               data-target="#modal-instructions">Instructions
