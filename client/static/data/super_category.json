@@ -1,3 +1,13 @@
-/**
- * Created by macpro on 6/14/17.
- */
+[
+  {"name": "person and accessory", "id": 1},
+  {"name": "animals", "id": 4},
+  {"name": "vehicles", "id": 2},
+  {"name": "street-view", "id": 3},
+  {"name": "sports", "id": 6},
+  {"name": "food", "id": 8},
+  {"name": "kitchenware", "id": 7},
+  {"name": "appliances", "id": 11},
+  {"name": "furniture", "id": 9},
+  {"name": "small indoor", "id": 12},
+  {"name": "electronics", "id": 10}
+]
