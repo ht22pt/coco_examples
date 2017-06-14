@@ -8,24 +8,21 @@
 
   <link rel="stylesheet" href="vendor/jquery-ui/themes/smoothness/jquery-ui.min.css">
   <link rel="stylesheet" href="vendor/bootstrap/dist/css/bootstrap.min.css"/>
+  <link rel="stylesheet" href="vendor/bootstrap3-dialog/dist/css/bootstrap-dialog.min.css"/>
   <link rel="stylesheet" href="static/css/coco_instance_spotting.css" />
   <link rel="stylesheet" href="vendor/bootstrap/dist/fonts/glyphicons-halflings-regular.woff">
 
   <script src="vendor/jquery/dist/jquery.min.js"></script>
   <script src="vendor/jquery-ui/jquery-ui.min.js"></script>
   <script src="vendor/bootstrap/dist/js/bootstrap.min.js"></script>
+  <script src="vendor/bootstrap3-dialog/dist/js/bootstrap-dialog.min.js"></script>
   <script src="static/js/coco_image_captioning.js"></script>
-  <script src="static/js/mturk_form_submission.js"></script>
 
 </head>
 <body>
 <div id="dialog-modal" title="Message"></div>
 <div id="dialog-confirm" title="Save the Result?"></div>
-<form id='mturk_form' action="MTURK_FORM_TO_SUBMIT" method="POST">
-  <input type="hidden" id="hitId" name="hitId" value='MTURK_HIT_ID'>
-  <input type="hidden" id="assignmentId" name="assignmentId" value='MTURK_ASSIGNMENT_ID'>
-  <input type="hidden" id="workerId" name="workerId" value='MTURK_WORKER_ID'>
-</form>
+
 <div style='text-align:center;display:inline-block'>
   <div style='width:800px;display:inline-block'>
     <div style='display:inline-block;width:500px'>
@@ -41,9 +38,9 @@
           <div id='userinput'>
             <textarea id='description' maxlength=250 placeholder="Enter description here"></textarea>
           </div>
-          <button class="btn btn-danger" data-dismiss="modal" aria-hidden="true" id="clear">Clear</button>
-          <button class="btn btn-primary" data-dismiss="modal" aria-hidden="true" id="submit">Submit</button>
-          <button class="btn btn-default" data-dismiss="modal" aria-hidden="true" id="next">Next</button>
+          <button class="btn btn-danger"  id="clear">Clear</button>
+          <button class="btn btn-primary" id="submit">Submit</button>
+          <button class="btn btn-default" id="next">Next</button>
 
         </div>
       </div>
