@@ -2,6 +2,9 @@
 // TODO: replace your image urls
 // each task contains 11 sets of supercategory to annotate
 var im_urls = ["http://orig13.deviantart.net/ac5c/f/2011/345/8/0/business_cat_original_by_plasticpyre-d4irr6a.jpg"];
+var url = "";
+var next_url = "coco_process_step_2.html";
+var img_id = 1;
 
 // define supercateogry and category as array
 var supercats = [];
@@ -38,9 +41,36 @@ $(document).ready(function () {
     window.location.replace("coco_process_step_3.html");
   });
   $('#submit').bind('click', function () {
-    $("#dialog-confirm").dialog("open");
-    $(".ui-dialog").css('top', window.scrollY + 200);
-    $(".ui-dialog").css('left', window.scrollX + 200);
+    // show annotations here
+    // i: image index; j: category index
+    var results = [];
+    for (i = 0; i < icons_all.length; i++) {
+      for (j = 0; j < icons_all[i].length; j++) {
+        if (icons_all[i][j]['isselected'] === 1) {
+          results.push({
+            cat_id: icons_all[i][j].cat_id,
+            supercat_id: icons_all[i][j].supercat_id,
+          })
+        }
+      }
+    }
+
+    var data = {
+      image_id: img_id, // Image Id from server
+      userId: 1,
+      categories: results
+    };
+
+    $.ajax({
+      type: "POST",
+      url: url,
+      data: data
+    }).success(function (result, status, xhr) {
+      console.log("Done");
+    }).error(function (xhr, status, error) {
+      console.log(data);
+    });
+
   });
   $('#previous').bind('click', function () {
     window.location.replace("coco_process_step_1.html");
