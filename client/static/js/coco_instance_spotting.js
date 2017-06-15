@@ -3,14 +3,14 @@ function Ctrler(){
     this.N = 0;
     this.cur_img_idx = 0;  // image
     this.cur_obj_idx = 0;  // object category
-    this.cur_anno_idx = 0;// annotation from 1 to 10, start from 0 
+    this.cur_anno_idx = 0;// annotation from 1 to 10, start from 0
     this.len_ratio = 2;
     this.hint_status = false;
 }
 // render image panel for given working image id
 Ctrler.prototype.render_im_panel = function(){
     for (i = 0; i < this.N; i++){
-        if (i == this.cur_img_idx){
+        if (i === this.cur_img_idx){
             $('#im-panel-'+i).find('img').attr('src', Im[i].src);
             $('#im-panel-'+i).show();
         }else{
@@ -18,14 +18,15 @@ Ctrler.prototype.render_im_panel = function(){
         }
     }
     for (i = 0; i < this.N; i++){
-        if (i == this.cur_img_idx){
+        if (i === this.cur_img_idx){
             $('#category-panel-'+i).show();
         }else{
             $('#category-panel-'+i).hide();
         }
     }
     this.render_bgim();
-}
+};
+
 // render category panel which includes icon and examples
 Ctrler.prototype.render_category_panel = function(){
     var i = this.cur_img_idx;
@@ -39,7 +40,8 @@ Ctrler.prototype.render_category_panel = function(){
     cat_div.find('img').css('height', 80);
     // redner name
     $('#div-cat-name').html(cat_name);
-}
+};
+
 Ctrler.prototype.render_hint = function(){
     $('.hint').stop(true);
     // load annotation from stage 2
@@ -59,12 +61,13 @@ Ctrler.prototype.render_hint = function(){
     // show hints
     $('.hint').css('left', pos_x);
     $('.hint').css('top', pos_y);
-    var cat_id = Anno[i].cat_id
+    var cat_id = Anno[i].cat_id;
     var src = 'static/img/categories/' + cat_id + '.png';
     $('.hint-img').attr('src', src);
     var s = 400;
     $('.hint').fadeTo(s,0.1).fadeTo(s,1).fadeTo(s,0.1).fadeTo(s,1).fadeTo(s, 0);
-}
+};
+
 // render annotation
 Ctrler.prototype.render_anno = function(){
     // image index, object category index, annotation index
@@ -73,8 +76,8 @@ Ctrler.prototype.render_anno = function(){
     var k = this.cur_anno_idx;
 
     for (k=0;k<10;k++){
-        if (Anno[i].ans[j][k] == 1){
-            var e = new Object();          
+        if (Anno[i].ans[j][k] === 1){
+            var e = {};
             e.pageX = Anno[i].annoloc[j][k][0];
             e.pageY = Anno[i].annoloc[j][k][1];
             showMarker(i,j,k, e);
@@ -86,7 +89,7 @@ Ctrler.prototype.render_anno = function(){
     }
     // set visible & marker_bg
     for (idx=0; idx<10; idx++){
-        if (Marker[idx].data('show') == 1){
+        if (Marker[idx].data('show') === 1){
             Marker[idx].show();
             Marker_bg[idx].hide()
         }else{
@@ -96,19 +99,20 @@ Ctrler.prototype.render_anno = function(){
     }
     var count = 0;
     for (p = 0; p<10; p++){
-        if (Marker[p].data('show')==1){
+        if (Marker[p].data('show')===1){
             count++;
         }
     }
     $('#anno_status').html('<div style="color:blue;display:inline">' + count +'</div> cat(s) found in this image.');
-}
+};
+
 // render background image
 Ctrler.prototype.render_bgim = function(){
     var i = this.cur_img_idx;
     var ratio = this.len_ratio;
-    $('#bgim').css({ backgroundImage: "url('" + Im[i].src + "')" })
+    $('#bgim').css({ backgroundImage: "url('" + Im[i].src + "')" });
     $('#bgim').css('background-size', parseFloat(Im[i].width)*ratio+ "px " + parseFloat(Im[i].height)*ratio + 'px');
-}
+};
 
 Ctrler.prototype.renderLen = function(e){
     var i = ctrler.cur_img_idx;
@@ -130,18 +134,18 @@ Ctrler.prototype.renderLen = function(e){
         bgtopPos = String(((e.pageY - offset.top) * heightRatio - target.height() / 2) * (-1));
         target.css({ backgroundPosition: bgleftPos + 'px ' + bgtopPos + 'px' });
 
-        var leftPos = String(e.pageX - target.width() / 2);
-        var topPos = String(e.pageY - target.height() / 2);
+        leftPos = String(e.pageX - target.width() / 2);
+        topPos = String(e.pageY - target.height() / 2);
         target.css({ left: leftPos + 'px', top: topPos + 'px' });
         // render Marker on background layer
         for (i=0; i<10; i++){
-            if (Marker[i].data('show') == 1){
+            if (Marker[i].data('show') === 1){
                 left_marker = parseFloat(Marker[i].css('left') )-obj.position().left;
                 top_marker =  parseFloat(Marker[i].css('top')  )-obj.position().top;
                 wid_marker = parseFloat(Marker[i].css('width') );
                 hei_marker = parseFloat(Marker[i].css('height'));
 
-                if (Marker_bg[i].data('ondrag') != 'TRUE'){
+                if (Marker_bg[i].data('ondrag') !== 'TRUE'){
                     Marker_bg[i].css('left', (left_marker*2 +parseFloat(bgleftPos)+(wid_marker/2) + parseFloat(leftPos) ));
                     Marker_bg[i].css('top',  (top_marker*2  +parseFloat(bgtopPos) +(hei_marker/2) + parseFloat(topPos)  ));
                 }
@@ -158,7 +162,7 @@ Ctrler.prototype.renderLen = function(e){
             }
         }
     }
-}
+};
 
 // render previous image
 Ctrler.prototype.back = function(){
@@ -180,7 +184,7 @@ Ctrler.prototype.back = function(){
     this.render_category_panel();
     this.render_anno();
     this.render_hint();
-}
+};
 
 // render next image
 Ctrler.prototype.next = function(){
@@ -205,22 +209,21 @@ Ctrler.prototype.next = function(){
             $('html, body').scrollTop( $(document).height() - $(window).height() );
         }
     }
-}
-
+};
 
 // add Markers
 Ctrler.prototype.addMarker = function(ev, flag){
-    if (ev.which == 1){
+    if (ev.which === 1){
         var i = ctrler.cur_img_idx;
         var j = ctrler.cur_obj_idx;
         var k = 10;
         for (p = 0; p<10; p++){
-            if (Marker[p].data('show')==0){
+            if (Marker[p].data('show')===0){
                 k = p;
                 break;
             }
         }
-        if (k == 10){
+        if (k === 10){
             ctrler.next();
             return 0;
         }
@@ -235,7 +238,7 @@ Ctrler.prototype.addMarker = function(ev, flag){
         var heiIm = parseFloat($('#img-'+i).css('height'));
         var offset = 0;
         // check if 10 markers
-        if (leftPos > leftPosIm-offset && leftPos < leftPosIm+widIm+offset && 
+        if (leftPos > leftPosIm-offset && leftPos < leftPosIm+widIm+offset &&
             topPos >  topPosIm -offset && topPos  < topPosIm +heiIm+offset){
             Marker[k].css('left', leftPos -wid/2);
             Marker[k].css('top',  topPos -hei/2);
@@ -244,7 +247,7 @@ Ctrler.prototype.addMarker = function(ev, flag){
         }
         ctrler.renderLen(ev);
     }
-}
+};
 
 // delete Markers
 Ctrler.prototype.deleteMarker = function(ev, kk){
@@ -253,25 +256,25 @@ Ctrler.prototype.deleteMarker = function(ev, kk){
     var j = ctrler.cur_obj_idx;
     var k = ctrler.cur_anno_idx;
     ev.preventDefault();
-    if (ev.which == 3){
+    if (ev.which === 3){
         // click event
         hideMarker(i,j, kk);
         ctrler.render_anno();
     }
-}
+};
 
 // add mouse and keyboard listener
 function addListener(){
     //=============== Keyboard Lisenter =====================
     $(document).keyup(function(ev){
         // Confirmation stage
-        if (ev.keyCode==78 || ev.keyCode==110){ //space
+        if (ev.keyCode===78 || ev.keyCode===110){ //space
             ctrler.next();
         }
-        if(ev.keyCode == 72 || ev.keyCode == 104){ //h
+        if(ev.keyCode === 72 || ev.keyCode === 104){ //h
             ctrler.render_hint();
         }
-        if(ev.keyCode == 66 || ev.keyCode == 98){ //b
+        if(ev.keyCode === 66 || ev.keyCode === 98){ //b
             ctrler.back();
         }
     });
@@ -313,8 +316,8 @@ function addDialog(){
           $( this ).dialog( "close" );
         }
       }
-    });  
-    $( ".ui-dialog" ).css('position', 'absolute'); 
+    });
+    $( ".ui-dialog" ).css('position', 'absolute');
 }
 
 // add markers
@@ -328,7 +331,7 @@ function createMarker(){
         Marker_bg[i].data('idx', i);
         Marker_bg[i].css('z-index', 10000);
         Marker_bg[i].appendTo($('#category-panel'));
-        
+
         Marker_bg[i].draggable({
             cursor: 'move',
             cursorAt: { top: 31, left: 15.5 },
@@ -351,12 +354,12 @@ function createMarker(){
                 var offsetY = parseFloat(Marker_bg[k].css('height'));
                 Marker[k].css('left', e.pageX-offsetX/2);
                 Marker[k].css('top',  e.pageY-offsetY/2);
-                if (Anno[i].ans[j] == -1){
+                if (Anno[i].ans[j] === -1){
                     Anno[i].ans[j] = 1;
                     Marker[0].css('color', 'blue');
                     Marker[0].html('+');
                 }
-            }, 
+            },
             stop: function (e, ui) {
                 var k = $(this).data('idx');
                 var i = ctrler.cur_img_idx;
