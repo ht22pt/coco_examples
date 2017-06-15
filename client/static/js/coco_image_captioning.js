@@ -1,7 +1,7 @@
 // ============================================================================
 // create question set and state to go through the questions
 // ============================================================================
-var url = "";
+var url = "http://127.0.0.1:3100/setCaption";
 var next_url = "coco_process_step_2.html";
 var questions = [];
 var state = 0;

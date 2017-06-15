@@ -401,6 +401,7 @@ function showMarker(i,j,k,e){
     var y = (e.pageY - imTop)/imHei;
     Anno[i].annoloc_percentage[j][k] = [x, y];
 }
+
 function hideMarker(i,j,k){
     Marker[k].data('show' ,  0);
     Anno[i].ans[j][k] = 0;
