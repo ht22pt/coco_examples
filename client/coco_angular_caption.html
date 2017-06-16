@@ -20,16 +20,14 @@
 
 </head>
 <body>
-<div id="dialog-modal" title="Message"></div>
-<div id="dialog-confirm" title="Save the Result?"></div>
 
-<div style='text-align:center;display:inline-block'>
-  <div style='width:800px;display:inline-block'>
-    <div style='display:inline-block;width:500px'>
-      <div style='padding-top:5px'>
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-lg-6">
+      <div class="row">
         <canvas id='canvas'></canvas>
       </div>
-      <div style='padding-top:5px'>
+      <div class="row">
         <div id='userinput_div'>
           <div id='header' style='font-weight:800; font-size: 14pt; padding-bottom:5px'>
             Please decribe the image:
@@ -45,7 +43,7 @@
         </div>
       </div>
     </div>
-    <div style='display:inline-block;vertical-align:top;font-size:12pt;text-align:left;width:280px; padding-left:10px'>
+    <div class="col-lg-4">
       <h style='font-weight:800'>Instructions:</h>
       <li>Describe all the <span style='color:blue'>important parts</span> of the scene.</li>
       <li><span style='color:red'>Do not</span> start the sentences with "There is".</li>
@@ -57,5 +55,8 @@
     </div>
   </div>
 </div>
+
+
+
 </body>
 </html>

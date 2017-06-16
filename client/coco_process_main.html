@@ -1,10 +1,62 @@
 <!DOCTYPE html>
-<html lang="en">
+
+<html>
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+
+  <link rel="stylesheet" href="vendor/jquery-ui/themes/smoothness/jquery-ui.min.css">
+  <link rel="stylesheet" href="vendor/bootstrap/dist/css/bootstrap.min.css"/>
+  <link rel="stylesheet" href="vendor/bootstrap3-dialog/dist/css/bootstrap-dialog.min.css"/>
+  <link rel="stylesheet" href="static/css/coco_instance_spotting.css" />
+  <link rel="stylesheet" href="vendor/bootstrap/dist/fonts/glyphicons-halflings-regular.woff">
+
+  <script src="vendor/jquery/dist/jquery.min.js"></script>
+  <script src="vendor/jquery-ui/jquery-ui.min.js"></script>
+  <script src="vendor/bootstrap/dist/js/bootstrap.min.js"></script>
+  <script src="vendor/bootstrap3-dialog/dist/js/bootstrap-dialog.min.js"></script>
+  <script src="static/js/coco_image_captioning.js"></script>
+
 </head>
 <body>
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-lg-6">
+      <div class="row">
+        <canvas id='canvas'></canvas>
+      </div>
+      <div class="row">
+        <div id='userinput_div'>
+          <div id='header' style='font-weight:800; font-size: 14pt; padding-bottom:5px'>
+            Please decribe the image:
+          </div>
+          <!--<p style=''>Enter image description:</p> -->
+          <div id='userinput'>
+            <textarea id='description' maxlength=250 placeholder="Enter description here"></textarea>
+          </div>
+          <button class="btn btn-danger"  id="clear">Clear</button>
+          <button class="btn btn-primary" id="submit">Submit</button>
+          <button class="btn btn-default" id="next">Next</button>
+
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-4">
+      <h style='font-weight:800'>Instructions:</h>
+      <li>Describe all the <span style='color:blue'>important parts</span> of the scene.</li>
+      <li><span style='color:red'>Do not</span> start the sentences with "There is".</li>
+      <li><span style='color:red'>Do not</span> describe unimportant details.</li>
+      <li><span style='color:red'>Do not</span> describe things that might have happened in the future or past.</li>
+      <li><span style='color:red'>Do not</span> describe what a person might say.</li>
+      <li><span style='color:red'>Do not</span> give people proper names.</li>
+      <li>The sentence should contain at least <span style='color:blue'>8 words</span>.</li>
+    </div>
+  </div>
+</div>
+
+
 
 </body>
 </html>
