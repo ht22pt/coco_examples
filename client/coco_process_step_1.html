@@ -9,7 +9,7 @@
   <link rel="stylesheet" href="vendor/jquery-ui/themes/smoothness/jquery-ui.min.css">
   <link rel="stylesheet" href="vendor/bootstrap/dist/css/bootstrap.min.css"/>
   <link rel="stylesheet" href="vendor/bootstrap3-dialog/dist/css/bootstrap-dialog.min.css"/>
-  <link rel="stylesheet" href="static/css/coco_instance_spotting.css" />
+  <link rel="stylesheet" href="static/css/coco_instance_spotting.css"/>
   <link rel="stylesheet" href="vendor/bootstrap/dist/fonts/glyphicons-halflings-regular.woff">
 
   <script src="vendor/jquery/dist/jquery.min.js"></script>
@@ -20,32 +20,14 @@
 
 </head>
 <body>
-<div id="dialog-modal" title="Message"></div>
-<div id="dialog-confirm" title="Save the Result?"></div>
 
-<div style='text-align:center;display:inline-block'>
-  <div style='width:800px;display:inline-block'>
-    <div style='display:inline-block;width:500px'>
-      <div style='padding-top:5px'>
-        <canvas id='canvas'></canvas>
-      </div>
-      <div style='padding-top:5px'>
-        <div id='userinput_div'>
-          <div id='header' style='font-weight:800; font-size: 14pt; padding-bottom:5px'>
-            Please decribe the image:
-          </div>
-          <!--<p style=''>Enter image description:</p> -->
-          <div id='userinput'>
-            <textarea id='description' maxlength=250 placeholder="Enter description here"></textarea>
-          </div>
-          <button class="btn btn-danger"  id="clear">Clear</button>
-          <button class="btn btn-primary" id="submit">Submit</button>
-          <button class="btn btn-default" id="next">Next</button>
-
-        </div>
-      </div>
+<div class="container-fluid" style="padding-top: 10px;">
+  <div class="row">
+    <div class="col-lg-4 col-md-6 col-xs-10">
+      <img id="image" src="" class="img-responsive">
     </div>
-    <div style='display:inline-block;vertical-align:top;font-size:12pt;text-align:left;width:280px; padding-left:10px'>
+
+    <div class=" col-lg-4 col-md-4 col-xs-10">
       <h style='font-weight:800'>Instructions:</h>
       <li>Describe all the <span style='color:blue'>important parts</span> of the scene.</li>
       <li><span style='color:red'>Do not</span> start the sentences with "There is".</li>
@@ -54,8 +36,32 @@
       <li><span style='color:red'>Do not</span> describe what a person might say.</li>
       <li><span style='color:red'>Do not</span> give people proper names.</li>
       <li>The sentence should contain at least <span style='color:blue'>8 words</span>.</li>
+
     </div>
   </div>
+
+  <div class="row">
+    <div class="col-lg-4 col-md-6 col-xs-10">
+      <div id='header' style='font-weight:800; font-size: 14pt; padding-bottom:5px'>
+        Please decribe the image:
+      </div>
+      <!--<p style=''>Enter image description:</p> -->
+      <div id='userinput'>
+        <textarea id='caption' maxlength=250 placeholder="Enter description here" class="col-lg-12 col-md-12 col-xs-12" style="height: 100px;"></textarea>
+      </div>
+      <div class="clearfix"></div>
+      <div class="row text-center top-buffer">
+              <button class="btn btn-danger state-button" id="clear">Clear</button>
+      <button class="btn btn-primary state-button" id="submit">Submit</button>
+      <button class="btn btn-default state-button" id="next">Next</button>
+      </div>
+
+
+    </div>
+  </div>
+
 </div>
+
+
 </body>
 </html>
