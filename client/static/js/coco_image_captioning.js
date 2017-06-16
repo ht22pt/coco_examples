@@ -1,35 +1,28 @@
 // ============================================================================
 // create question set and state to go through the questions
 // ============================================================================
-var url = "http://127.0.0.1:3100/setCaption";
-var next_url = "coco_process_step_2.html";
-var questions = [];
-var state = 0;
-var init_time = $.now();
+
 // TODO: define list of image urls to load in this page
 // Need get image from list from server
-var im_urls = ["http://orig13.deviantart.net/ac5c/f/2011/345/8/0/business_cat_original_by_plasticpyre-d4irr6a.jpg"];
+var url = "http://127.0.0.1:3100/setCaption";
+var next_url = "coco_process_step_2.html";
 
 // ============================================================================
 // initialize images
 // ============================================================================
-for (i = 0; i < im_urls.length; i++) {
-  var im = new Image();
-  var q = {};
-  im.src = im_urls[i];
-  q.im = im;
-  q.id = 1;
-  q.ans = '';
-  // TODO: add fields for identifying images here
-  questions.push(q);
-}
+
+//var im_url = "http://orig13.deviantart.net/ac5c/f/2011/345/8/0/business_cat_original_by_plasticpyre-d4irr6a.jpg";
+var im_url = "static/img/demo/483646.jpg";
+var im_id = 1;
+var caption = "";
 
 // ============================================================================
 // page onload
 // ============================================================================
 $(window).load(function () {
 
-  render_question(questions[0]);
+  $('#image').attr("src", im_url);
+  $('#caption').val(caption);
 
   $('#next').bind('click', function () {
     // Goto Step 2
@@ -48,18 +41,18 @@ $(window).load(function () {
 // ===============================================================
 
 function submit() {
-  var q = questions[state];
+
   // store user input
-  q.ans = $('#description').val();
-  if (q.ans.split(' ').length < 8) {
+  caption = $('#description').val();
+  if (caption.length < 8) {
     render_dialog(7);
     return -1;
   }
 
   var data = {
-    image_id: q.id, // Image Id from server
+    image_id: im_id, // Image Id from server
     userId: 1,
-    caption: q.ans
+    caption: caption
   };
 
   $.ajax({
@@ -74,32 +67,8 @@ function submit() {
 }
 
 // ===============================================================
-// rednering question, image, and dialog
+// rednering dialog
 // ==============================================================
-function render_question(q) {
-  render_im(q.im);
-  $('.state-button').show();
-  $('#description').show();
-  $('#description').css('width', 480);
-  $('#description').css('height', 100);
-  $('#description').val(q.ans);
-  $('#header').text('Please describe the image:');
-}
-
-function render_im(im) {
-  im.height = im.height * 480 / im.width;
-  im.width = 480;
-  var c = $('#canvas')[0];
-  if (im.width > im.height) {
-    c.width = 480;
-    c.height = im.height * 480 / im.width;
-  } else {
-    c.height = 360;
-    c.width = im.width * 360 / im.height
-  }
-  var ctx = c.getContext("2d");
-  ctx.drawImage(im, 0, 0, c.width, c.height);
-}
 
 function render_dialog(idx) {
   var text = "";
@@ -124,7 +93,7 @@ function render_dialog(idx) {
   BootstrapDialog.show({
     type: 'type-danger',
     title: 'ERROR',
-    message : text
+    message: text
   });
 }
 
