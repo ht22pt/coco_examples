@@ -135,7 +135,6 @@ function initialize_anncats()
 
 // next task
 function nextTask() {
-  debugger;
   while (im_err[task_cursor] === -1) {
     if (task_cursor === N_task - 1) {
       break;  // if it's the end of the task
@@ -169,8 +168,8 @@ function nextTask() {
 // previous task
 function prevTask() {
   var i = task_cursor;
-  if (supercat_cursor[i] > 0) {
-    supercat_cursor[i]--;
+  if (supercat_cursor > 0) {
+    supercat_cursor--;
     renderIcons(supercat_cursor, icons_all);
     // set progress
     $('#progress-number').html((supercat_cursor + 1) + '/' + N);
@@ -200,13 +199,14 @@ function prevTask() {
 }
 // clean icon panel
 function cleanIconPanel(icons) {
-  debugger;
   icons_children = $("#div-icons-panel").children().children();
   icons_children.detach();
 }
 
 function renderTask() {
-  debugger;
+  if (task_cursor === 0)
+    return;
+
   window.location = $('#anchor' + task_cursor).attr('href');
   for (i = 0; i < N_task; i++) {
     if (i === task_cursor) {
