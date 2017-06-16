@@ -1,7 +1,7 @@
 // define images for each task
 // TODO: replace your image urls
 // each task contains 11 sets of supercategory to annotate
-var im_urls = ["http://orig13.deviantart.net/ac5c/f/2011/345/8/0/business_cat_original_by_plasticpyre-d4irr6a.jpg"];
+var im_url = "http://orig13.deviantart.net/ac5c/f/2011/345/8/0/business_cat_original_by_plasticpyre-d4irr6a.jpg";
 var url = "";
 var next_url = "coco_process_step_2.html";
 var img_id = 1;
@@ -20,12 +20,14 @@ var icons_all = [];
 var questions = [];
 
 // define state variables that controls ui
-var supercat_cursor = [];
+var supercat_cursor = 0;
+/*
 for (i = 0; i < im_urls.length; i++) {
   supercat_cursor[i] = 0;
 }
+*/
 var task_cursor = 0;
-var N_task = im_urls.length;
+var N_task = 1;
 
 // define timer
 var init_time;
@@ -45,11 +47,11 @@ $(document).ready(function () {
     // i: image index; j: category index
     var results = [];
     for (i = 0; i < icons_all.length; i++) {
-      for (j = 0; j < icons_all[i].length; j++) {
-        if (icons_all[i][j]['isselected'] === 1) {
+      for (j = 0; j < icons_all.length; j++) {
+        if (icons_all[j]['isselected'] === 1) {
           results.push({
-            cat_id: icons_all[i][j].cat_id,
-            supercat_id: icons_all[i][j].supercat_id,
+            cat_id: icons_all[j].cat_id,
+            supercat_id: icons_all[j].supercat_id,
           })
         }
       }
@@ -80,16 +82,13 @@ $(document).ready(function () {
   // ================= prepare data =====================
   // ====================================================
 
-  // initialize images
-  for (i = 0; i < im_urls.length; i++) {
     var im = new Image();
     var q = {};
-    im.src = im_urls[i];
+    im.src = im_url;
     q.im = im;
     q.ans = '';
     // TODO: add fields for identifying images here
     questions.push(q);
-  }
 
   // ================= define supercategory =============
   $.ajax({
@@ -102,19 +101,7 @@ $(document).ready(function () {
       supercats = json;
     }
   });
-  /*
-   supercats[0] = {'name': "person and accessory", 'id': 1};
-   supercats[1] = {'name': "animals", 'id': 4};
-   supercats[2] = {'name': "vehicles", 'id': 2};
-   supercats[3] = {'name': "street-view", 'id': 3};
-   supercats[4] = {'name': "sports", 'id': 6};
-   supercats[5] = {'name': "food", 'id': 8};
-   supercats[6] = {'name': "kitchenware", 'id': 7};
-   supercats[7] = {'name': "appliances", 'id': 11};
-   supercats[8] = {'name': "furniture", 'id': 9};
-   supercats[9] = {'name': "small indoor", 'id': 12};
-   supercats[10] = {'name': "electronics", 'id': 10};
-   */
+
   // ================= define categories =============
   $.ajax({
     url: 'static/data/category.json',
@@ -126,93 +113,8 @@ $(document).ready(function () {
       categories = json;
     }
   });
-  /*
-   categories = [
-   {"supercat_id": 1, "name": "person", "cat_id": 1},
-   {"supercat_id": 2, "name": "bicycle", "cat_id": 2},
-   {"supercat_id": 2, "name": "car", "cat_id": 3},
-   {"supercat_id": 2, "name": "motorcycle", "cat_id": 4},
-   {"supercat_id": 2, "name": "airplane", "cat_id": 5},
-   {"supercat_id": 2, "name": "bus", "cat_id": 6},
-   {"supercat_id": 2, "name": "train", "cat_id": 7},
-   {"supercat_id": 2, "name": "truck", "cat_id": 8},
-   {"supercat_id": 2, "name": "boat", "cat_id": 9},
-   {"supercat_id": 3, "name": "traffic light", "cat_id": 10},
-   {"supercat_id": 3, "name": "fire hydrant", "cat_id": 11},
-   {"supercat_id": 3, "name": "stop sign", "cat_id": 13},
-   {"supercat_id": 3, "name": "parking meter", "cat_id": 14},
-   {"supercat_id": 3, "name": "bench", "cat_id": 15},
-   {"supercat_id": 4, "name": "bird", "cat_id": 16},
-   {"supercat_id": 4, "name": "cat", "cat_id": 17},
-   {"supercat_id": 4, "name": "dog", "cat_id": 18},
-   {"supercat_id": 4, "name": "horse", "cat_id": 19},
-   {"supercat_id": 4, "name": "sheep", "cat_id": 20},
-   {"supercat_id": 4, "name": "cow", "cat_id": 21},
-   {"supercat_id": 4, "name": "elephant", "cat_id": 22},
-   {"supercat_id": 4, "name": "bear", "cat_id": 23},
-   {"supercat_id": 4, "name": "zebra", "cat_id": 24},
-   {"supercat_id": 4, "name": "giraffe", "cat_id": 25},
-   {"supercat_id": 1, "name": "backpack", "cat_id": 27},
-   {"supercat_id": 1, "name": "umbrella", "cat_id": 28},
-   {"supercat_id": 1, "name": "handbag", "cat_id": 31},
-   {"supercat_id": 1, "name": "tie", "cat_id": 32},
-   {"supercat_id": 1, "name": "suitcase", "cat_id": 33},
-   {"supercat_id": 6, "name": "frisbee", "cat_id": 34},
-   {"supercat_id": 6, "name": "skis", "cat_id": 35},
-   {"supercat_id": 6, "name": "snowboard", "cat_id": 36},
-   {"supercat_id": 6, "name": "sports ball", "cat_id": 37},
-   {"supercat_id": 6, "name": "kite", "cat_id": 38},
-   {"supercat_id": 6, "name": "baseball bat", "cat_id": 39},
-   {"supercat_id": 6, "name": "baseball glove", "cat_id": 40},
-   {"supercat_id": 6, "name": "skateboard", "cat_id": 41},
-   {"supercat_id": 6, "name": "surfboard", "cat_id": 42},
-   {"supercat_id": 6, "name": "tennis racket", "cat_id": 43},
-   {"supercat_id": 7, "name": "bottle", "cat_id": 44},
-   {"supercat_id": 7, "name": "wine glass", "cat_id": 46},
-   {"supercat_id": 7, "name": "cup", "cat_id": 47},
-   {"supercat_id": 7, "name": "fork", "cat_id": 48},
-   {"supercat_id": 7, "name": "knife", "cat_id": 49},
-   {"supercat_id": 7, "name": "spoon", "cat_id": 50},
-   {"supercat_id": 7, "name": "bowl", "cat_id": 51},
-   {"supercat_id": 8, "name": "banana", "cat_id": 52},
-   {"supercat_id": 8, "name": "apple", "cat_id": 53},
-   {"supercat_id": 8, "name": "sandwich", "cat_id": 54},
-   {"supercat_id": 8, "name": "orange", "cat_id": 55},
-   {"supercat_id": 8, "name": "broccoli", "cat_id": 56},
-   {"supercat_id": 8, "name": "carrot", "cat_id": 57},
-   {"supercat_id": 8, "name": "hot dog", "cat_id": 58},
-   {"supercat_id": 8, "name": "pizza", "cat_id": 59},
-   {"supercat_id": 8, "name": "donut", "cat_id": 60},
-   {"supercat_id": 8, "name": "cake", "cat_id": 61},
-   {"supercat_id": 9, "name": "chair", "cat_id": 62},
-   {"supercat_id": 9, "name": "couch", "cat_id": 63},
-   {"supercat_id": 9, "name": "potted plant", "cat_id": 64},
-   {"supercat_id": 9, "name": "bed", "cat_id": 65},
-   {"supercat_id": 9, "name": "dining table", "cat_id": 67},
-   {"supercat_id": 9, "name": "toilet", "cat_id": 70},
-   {"supercat_id": 10, "name": "tv", "cat_id": 72},
-   {"supercat_id": 10, "name": "laptop", "cat_id": 73},
-   {"supercat_id": 10, "name": "mouse", "cat_id": 74},
-   {"supercat_id": 10, "name": "remote", "cat_id": 75},
-   {"supercat_id": 10, "name": "keyboard", "cat_id": 76},
-   {"supercat_id": 10, "name": "cell phone", "cat_id": 77},
-   {"supercat_id": 11, "name": "microwave", "cat_id": 78},
-   {"supercat_id": 11, "name": "oven", "cat_id": 79},
-   {"supercat_id": 11, "name": "toaster", "cat_id": 80},
-   {"supercat_id": 11, "name": "sink", "cat_id": 81},
-   {"supercat_id": 11, "name": "refrigerator", "cat_id": 82},
-   {"supercat_id": 12, "name": "book", "cat_id": 84},
-   {"supercat_id": 12, "name": "clock", "cat_id": 85},
-   {"supercat_id": 12, "name": "vase", "cat_id": 86},
-   {"supercat_id": 12, "name": "scissors", "cat_id": 87},
-   {"supercat_id": 12, "name": "teddy bear", "cat_id": 88},
-   {"supercat_id": 12, "name": "hair drier", "cat_id": 89},
-   {"supercat_id": 12, "name": "toothbrush", "cat_id": 90}
-   ];
-   */
 
   // ================= define icons =============
-  for (i = 0; i < im_urls.length; i++) {
     var icons = [];
     for (j = 0; j < categories.length; j++) {
       var cat = categories[j];
@@ -230,28 +132,27 @@ $(document).ready(function () {
         'drag_time': 0,
 
       });
-      icons_all[i] = icons;
+      icons_all = icons;
     }
-  }
 
   // =====================================================================
   // prepare for interactive icon panel
-  // icons_all[i][j], i: images, j: icons
-  for (var i = 0; i < im_urls.length; i++) {
+  // icons_all[j], i: images, j: icons
+  //for (var i = 0; i < im_urls.length; i++) {
     for (var j = 0; j < icons.length; j++) {
-      icons_all[i][j]['div'].data('idx', j);
-      icons_all[i][j]['div1'].data('idx', j);
-      icons_all[i][j]['div'].data('img_idx', i);
-      icons_all[i][j]['div1'].data('img_idx', i);
+      icons_all[j]['div'].data('idx', j);
+      icons_all[j]['div1'].data('idx', j);
+      icons_all[j]['div'].data('img_idx', 1);
+      icons_all[j]['div1'].data('img_idx', 1);
       // ===============================================================
       // ==================== Set draggable =============================
       // ===============================================================
-      icons_all[i][j]['div'].draggable({
+      icons_all[j]['div'].draggable({
         cursor: "move",
         start: function (ev) {
           var i = $(this).data('img_idx');
           var idx = $(this).data('idx');
-          var isselected = icons_all[i][idx]['isselected'];
+          var isselected = icons_all[idx]['isselected'];
           if (isselected === 0) {
             $(this).find('p').html('');
           }
@@ -268,33 +169,33 @@ $(document).ready(function () {
         stop: function (ev) {
           var i = $(this).data('img_idx');
           var idx = $(this).data('idx');
-          var isselected = icons_all[i][idx]['isselected'];
+          var isselected = icons_all[idx]['isselected'];
           // =========== check if it's drop in image ==========
-          var im_y = parseFloat($('#imdiv' + i).find('.image-task').position().top);
-          var im_x = parseFloat($('#imdiv' + i).find('.image-task').position().left);
-          var im_w = parseFloat($('#imdiv' + i).find('.image-task').css('width'));
-          var im_h = parseFloat($('#imdiv' + i).find('.image-task').css('height'));
+          var im_y = parseFloat($('#imdiv').find('.image-task').position().top);
+          var im_x = parseFloat($('#imdiv').find('.image-task').position().left);
+          var im_w = parseFloat($('#imdiv').find('.image-task').css('width'));
+          var im_h = parseFloat($('#imdiv').find('.image-task').css('height'));
           var icon_x = ($(this).position().left + 20.0 - im_x) / im_w;
           var icon_y = ($(this).position().top + 20.0 - im_y) / im_h;
-          icons_all[i][idx]['drag_time'] += -$(this).data('drag_start_time') + ev.timeStamp;
+          icons_all[idx]['drag_time'] += -$(this).data('drag_start_time') + ev.timeStamp;
           if (icon_x < -0.01 || icon_x > 1.01 || icon_y < -0.01 || icon_y > 1.01) {
             if (isselected === 1) {
               $(this).trigger('click');   // equal to de-select the icon
             } else {
               $(this).css('left', 0);     // go back to their original position
               $(this).css('top', 0);
-              $(this).find('p').html(icons_all[i][idx]['name']);
+              $(this).find('p').html(icons_all[idx]['name']);
             }
             return -1;
           }
           $(this).data('drag_start_time');
 
           if (isselected === 0) {
-            icons_all[i][idx]['div1'].appendTo($('#cats_icons' + i));
-            icons_all[i][idx]['div'].css('border-color', 'green');
+            icons_all[idx]['div1'].appendTo($('#cats_icons'));
+            icons_all[idx]['div'].css('border-color', 'green');
             $(this).find('.caption').find('p').css('color', 'green');
-            icons_all[i][idx]['div1'].css('border-color', 'green');
-            icons_all[i][idx]['isselected'] = 1;
+            icons_all[idx]['div1'].css('border-color', 'green');
+            icons_all[idx]['isselected'] = 1;
             // change the content
             $(this).find('p').html('');
             $(this).css('width', '25px');
@@ -311,13 +212,13 @@ $(document).ready(function () {
             $(this).css('position', 'absolute');
           }
           // save position at the end of the drag
-          icons_all[i][idx]['x'] = ($(this).position().left - im_x) / im_w;
-          icons_all[i][idx]['y'] = ($(this).position().top - im_y) / im_h;
+          icons_all[idx]['x'] = ($(this).position().left - im_x) / im_w;
+          icons_all[idx]['y'] = ($(this).position().top - im_y) / im_h;
 
         }
       });
     }
-  }
+  //}
 
   // initialize UI
   initialize_anncats();

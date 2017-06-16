@@ -2,18 +2,18 @@
 function initialize_anncats()
 {
   N = supercats.length;
-  var im = [];
-  for (i = 0; i < im_urls.length; i++) {
-    url = im_urls[i];
-    imdiv = $('#imdiv' + i);
+  var im;
+  //for (i = 0; i < im_urls.length; i++) {
+    url = im_url;
+    imdiv = $('#imdiv');
     // image to be annotated
-    im[i] = $('<div class="div-image"><img class="image-task" src="' + url + '"></img></div>');
-    im[i].children().data('i', i);
-    im[i].appendTo(imdiv);
+    im = $('<div class="div-image"><img class="image-task" src="' + url + '"></img></div>');
+    im.children().data('i', 1);
+    im.appendTo(imdiv);
     // ====================================================
     // prepare images after load image
     // =====================================================
-    im[i].children().load(function () {
+    im.children().load(function () {
       // ====================================================
       // adapt to the scale of image
       // =====================================================
@@ -21,7 +21,7 @@ function initialize_anncats()
       var i = $(this).data('i');
       var imdiv = $(this).parent().parent();
       // div for icons that are in the image
-      cats_icons = $('#cats_icons' + i);
+      cats_icons = $('#cats_icons');
       // deal with resizing the image
       var height = parseInt($(this).css('height'));
       var width = parseInt($(this).css('width'));
@@ -36,20 +36,20 @@ function initialize_anncats()
       imdiv.css('height', height_new + 'px');
       cats_icons.appendTo(imdiv);
       // questions panel
-      question = $('#div-task' + i);
+      question = $('#div-task');
       icon_and_arrow = $('<div class="div-icon-and-arrow"></div>');
       icon_and_arrow.appendTo(question);
       // buton panel right
       button_panel_left = $('<div class="button-panel"></div>');
       button_panel_right = $('<div class="button-panel"></div>');
       // question panael
-      icons_panel = $('<div id="div-icons-panel' + i + '" class="div-icons-panel"></div>');
+      icons_panel = $('<div id="div-icons-panel" class="div-icons-panel"></div>');
       button_panel_left.appendTo(icon_and_arrow);
       icons_panel.appendTo(icon_and_arrow);
       button_panel_right.appendTo(icon_and_arrow);
       // render div in question
       for (j = 0; j < 20; j++) {
-        icons_candidates = $('<div id="div-candidate-icons_' + i + '_' + j + '" class="div-candidate-icons"></div>');
+        icons_candidates = $('<div id="div-candidate-icons_' + j + '" class="div-candidate-icons"></div>');
         icons_candidates.appendTo(icons_panel);
       }
       button_panel = $('<div class="button-panel"></div>');
@@ -57,7 +57,7 @@ function initialize_anncats()
       //================================================================================
       // add next and previous buttons
       //================================================================================
-      button_next = $('<img id="button-next' + i + '" class="img-button" src="static/img/icons/right.png"></img>');
+      button_next = $('<img id="button-next" class="img-button" src="static/img/icons/right.png"></img>');
       button_next.bind('click', function () {
         nextTask();
       });
@@ -68,7 +68,7 @@ function initialize_anncats()
           $(this).find('img').attr('src', "static/img/icons/right.png")
         });
 
-      button_prev = $('<img id="button-prev' + i + '" class="img-button" src="static/img/icons/left.png"></img>');
+      button_prev = $('<img id="button-prev" class="img-button" src="static/img/icons/left.png"></img>');
       button_prev.bind('click', function () {
         prevTask();
       });
@@ -83,12 +83,12 @@ function initialize_anncats()
       //==================================================
       // add progress bar
       //==================================================
-      progress = $('<div class="progress" id="progress' + i + '"></div>');//+
-      progress_number = $('<div id="progress-number' + i + '" class="progress-number"></div>');
+      progress = $('<div class="progress" id="progress"></div>');//+
+      progress_number = $('<div id="progress-number" class="progress-number"></div>');
       progress.appendTo(question);
       progress_number.appendTo(question);
-      progressbar = $('<div id="progressbar' + i + '" class="progressbar"></div>');
-      progressbar.appendTo($('#progress' + i));
+      progressbar = $('<div id="progressbar" class="progressbar"></div>');
+      progressbar.appendTo($('#progress'));
       progressbar.progressbar({
         value: 1.0 / N * 100
       });
@@ -97,15 +97,17 @@ function initialize_anncats()
       progressbar.height(20);
       progressbar.width(690);
       // progress number
-      $('#progress-number' + i).html('1/' + N);
+      $('#progress-number').html('1/' + N);
       //==================================================
       // render icons
       //==================================================
-      addIconListener(icons_all[i], i);
-      renderIcons(0, icons_all[i], i);
+      addIconListener(icons_all);
+      renderIcons(0, icons_all);
+      /*
       if (i !== 0 && task_cursor !== i) {
         $('#task' + i).hide();
       }
+      */
     })
       .error(function () {
         var i = $(this).data('i');
@@ -116,9 +118,9 @@ function initialize_anncats()
           task_cursor = 1;
         }
         console.log('error');
-        $('#task' + i).hide();
+        $('#task').hide();
       });
-  }
+  //}
 // =========================================
 // ============ key press listener =========
 // =========================================
@@ -133,6 +135,7 @@ function initialize_anncats()
 
 // next task
 function nextTask() {
+  debugger;
   while (im_err[task_cursor] === -1) {
     if (task_cursor === N_task - 1) {
       break;  // if it's the end of the task
@@ -140,14 +143,14 @@ function nextTask() {
     task_cursor++;
   }
   idx = task_cursor;
-  if (supercat_cursor[idx] < supercats.length - 1) {
-    supercat_cursor[idx]++;
-    renderIcons(supercat_cursor[idx], icons_all[idx], idx);
+  if (supercat_cursor < supercats.length - 1) {
+    supercat_cursor++;
+    renderIcons(supercat_cursor, icons_all);
     // set progress
-    $('#progress-number' + idx).html((supercat_cursor[idx] + 1) + '/' + N);
-    $("#progressbar" + idx).progressbar({value: ((supercat_cursor[idx] + 1) / N * 100)});
-    if (supercat_cursor[idx] === supercats.length - 1) {
-      $('#progress-number' + idx).css('color', 'green');
+    $('#progress-number').html((supercat_cursor + 1) + '/' + N);
+    $("#progressbar").progressbar({value: ((supercat_cursor + 1) / N * 100)});
+    if (supercat_cursor === supercats.length - 1) {
+      $('#progress-number').css('color', 'green');
     }
   } else {
     while (im_err[task_cursor + 1] === -1) {
@@ -168,11 +171,11 @@ function prevTask() {
   var i = task_cursor;
   if (supercat_cursor[i] > 0) {
     supercat_cursor[i]--;
-    renderIcons(supercat_cursor[i], icons_all[i], i);
+    renderIcons(supercat_cursor, icons_all);
     // set progress
-    $('#progress-number' + i).html((supercat_cursor[i] + 1) + '/' + N);
-    $("#progressbar" + i).progressbar({value: ((supercat_cursor[i] + 1) / N * 100)});
-    $('#progress-number' + i).css('color', 'red');
+    $('#progress-number').html((supercat_cursor + 1) + '/' + N);
+    $("#progressbar").progressbar({value: ((supercat_cursor + 1) / N * 100)});
+    $('#progress-number').css('color', 'red');
   } else {
     if (task_cursor !== 0) {
       while (im_err[task_cursor - 1] === -1) {
@@ -196,12 +199,14 @@ function prevTask() {
 
 }
 // clean icon panel
-function cleanIconPanel(idx, icons) {
-  icons_children = $("#div-icons-panel" + idx).children().children();
+function cleanIconPanel(icons) {
+  debugger;
+  icons_children = $("#div-icons-panel").children().children();
   icons_children.detach();
 }
 
 function renderTask() {
+  debugger;
   window.location = $('#anchor' + task_cursor).attr('href');
   for (i = 0; i < N_task; i++) {
     if (i === task_cursor) {
@@ -212,18 +217,18 @@ function renderTask() {
   }
 }
 // create a function to render icons when icon list change or move
-function renderIcons(supercat_cursor, icons, idx) {
+function renderIcons(supercat_cursor, icons) {
   // redner TASK
-  $('#question_panel' + idx).html('Task: select ' + '<div style="display:inline;color:blue">' + supercats[supercat_cursor]['name'] + '</div>' + ' items shown in the image (if any):')
+  $('#question_panel').html('Task: select ' + '<div style="display:inline;color:blue">' + supercats[supercat_cursor]['name'] + '</div>' + ' items shown in the image (if any):')
   //clean icon panel
-  cleanIconPanel(idx, icons);
+  cleanIconPanel(icons);
   //icons panel
   for (i = 0; i < icons.length; i++) {
     if (icons[i]['supercat_id'] === supercats[supercat_cursor].id) {
 // ============== drag and drop ===============================================
       if (icons[i]['isselected'] === 0) {
         var panel_idx = icons[i]['panel_idx'];
-        icons[i]['div'].appendTo($('#div-candidate-icons_' + idx + '_' + panel_idx));
+        icons[i]['div'].appendTo($('#div-candidate-icons_' + panel_idx));
         icons[i]['div'].find('p').html(icons[i]['name']);
         icons[i]['div'].css('position', 'relative');
       }
@@ -234,7 +239,7 @@ function renderIcons(supercat_cursor, icons, idx) {
   }
 }
 
-function addIconListener(icons, idx) {
+function addIconListener(icons) {
   // set panel_idx
   var panel_idx_all = [];
   for (i = 0; i < supercats.length; i++) {
